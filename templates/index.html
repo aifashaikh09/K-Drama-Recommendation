@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>K-Drama Recommendation System</title>
+<style>
+/* Page design */
+ body {
+    font-family: Arial;
+    text-align: center;
+    background-color: #f5eaff;
+    padding: 30px;
+}
+ h1 {
+    color: purple;
+    }
+ .container, .result {
+    background-color: white;
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+     }
+/* genres in two columns */
+.genres {
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+ }
+select {
+    padding: 10px;
+     width: 80%;
+        }
+/* Button design */
+ button {
+    padding: 12px 20px;
+    background-color: purple;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/* Error message */
+.message {
+    color: red;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>K-Drama Recommendation System</h1>
+    <div class="container">
+        <form method="POST">
+ <!-- Genre selection -->
+    <h3>Select Your Favourite Genres</h3>
+        <div class="genres">
+            {% for genre in genres %}
+            <label>
+                <input type="checkbox"name="genres" value="{{ genre }}"{% if genre in selected_genres %}checked{% endif %}> {{ genre }}
+            </label>
+             {% endfor %}
+        </div>
+<!-- Rating selection -->
+ <h3>Select Minimum Rating</h3>
+<select name="rating">
+    <option value="">Any Rating</option>
+    <option value="1" {% if selected_rating == "1" %}selected{% endif %}>1 and above</option>
+    <option value="2" {% if selected_rating == "2" %}selected{% endif %}>2 and above</option>
+    <option value="3" {% if selected_rating == "3" %}selected{% endif %}>3 and above</option>
+    <option value="4" {% if selected_rating == "4" %}selected{% endif %}>4 and above</option>
+    <option value="5" {% if selected_rating == "5" %}selected{% endif %}>5 and above</option>
+    <option value="6" {% if selected_rating == "6" %}selected{% endif %}>6 and above</option>
+    <option value="7" {% if selected_rating == "7" %}selected{% endif %}>7 and above</option>
+    <option value="8" {% if selected_rating == "8" %}selected{% endif %}>8 and above</option>
+    <option value="9" {% if selected_rating == "9" %}selected{% endif %}>9 and above</option>
+    <option value="10" {% if selected_rating == "10" %}selected{% endif %}>10</option>
+
+</select>
+<!-- Year selection -->
+  <h3>Select Release Year</h3>
+   <select name="year">
+     <option value="">Any Year</option>
+      {% for year in years %}
+      <option value="{{ year }}"
+      {% if selected_year == year|string %}selected{% endif %}>
+      {{ year }}
+    </option>
+    {% endfor %}
+ </select>
+ <br><br>
+  <!-- Recommendation button -->
+    <button type="submit">Recommend K-Dramas</button>
+</form>
+<!-- Display message if no filter is selected -->
+ <p class="message">{{ message }}</p>
+</div>
+<!-- Display recommended dramas -->
+{% if recommendations %}
+<div class="result">
+    <h2>Recommended K-Dramas</h2>
+     {% for drama in recommendations %}
+     <p>{{ loop.index }}. {{ drama }}</p>
+      {% endfor %}
+</div>
+{% endif %}
+</body>
+</html>
